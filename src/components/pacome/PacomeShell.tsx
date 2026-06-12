@@ -11,6 +11,7 @@ import CompanyProfile, { ScrollCue } from './CompanyProfile'
 import WorkDetailPanel from './WorkDetailPanel'
 import { PORTFOLIO } from '@/data/plutoContent'
 
+import EntryGate from './EntryGate'
 const PacomeOrb = dynamic(() => import('./PacomeOrb'), { ssr: false })
 const SpiralWorks = dynamic(() => import('./SpiralWorks'), { ssr: false })
 
@@ -18,6 +19,7 @@ type ViewMode = 'spiral' | 'list'
 type Panel = 'about' | 'contact' | null
 
 export default function PacomeShell() {
+  const [showGate, setShowGate] = useState(true)
   const [viewMode, setViewMode] = useState<ViewMode>('spiral')
   const [menuOpen, setMenuOpen] = useState(false)
   const [panel, setPanel] = useState<Panel>(null)
@@ -32,11 +34,16 @@ export default function PacomeShell() {
     <div className="relative bg-black text-white overflow-x-hidden">
       <div className="pacome-grid fixed inset-0 pointer-events-none" />
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
+      <AnimatePresence mode="wait">
+        {showGate ? (
+          <EntryGate key="gate" onEnter={() => setShowGate(false)} />
+        ) : (
+          <motion.div
+            key="content"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
         {/* ── fixed header ── */}
         <header className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-5 py-5 sm:px-8">
           <button type="button" className="opacity-90 hover:opacity-100 transition-opacity" aria-label="Pluto home">
@@ -102,6 +109,8 @@ export default function PacomeShell() {
           <ShowreelDisc />
         </div>
       </motion.div>
+    )}
+  </AnimatePresence>
 
       <PacomeMenu open={menuOpen} onClose={() => setMenuOpen(false)} onNavigate={handleNavigate} />
       <ContentPanel section={panel} onClose={() => setPanel(null)} />
