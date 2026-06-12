@@ -19,7 +19,7 @@ type ViewMode = 'spiral' | 'list'
 type Panel = 'about' | 'contact' | null
 
 export default function PacomeShell() {
-  const [showGate, setShowGate] = useState(false)
+  const [showGate, setShowGate] = useState(true)
   const [viewMode, setViewMode] = useState<ViewMode>('spiral')
   const [menuOpen, setMenuOpen] = useState(false)
   const [panel, setPanel] = useState<Panel>(null)
