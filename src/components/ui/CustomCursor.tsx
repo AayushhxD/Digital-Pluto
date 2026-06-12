@@ -49,6 +49,17 @@ export default function CustomCursor() {
 
   const [state, setState] = useState<CursorState>('idle')
   const [visible, setVisible] = useState(false)
+  const [isTouch, setIsTouch] = useState(false)
+
+  useEffect(() => {
+    // Check if the primary input is coarse (like a touch screen)
+    const mediaQuery = window.matchMedia('(pointer: coarse)')
+    setIsTouch(mediaQuery.matches)
+
+    const handler = (e: MediaQueryListEvent) => setIsTouch(e.matches)
+    mediaQuery.addEventListener('change', handler)
+    return () => mediaQuery.removeEventListener('change', handler)
+  }, [])
 
   /* canvas tail ref */
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -171,6 +182,8 @@ export default function CustomCursor() {
     : RING_SIZE_DEFAULT
 
   const dotScale = state === 'press' ? 0.4 : state === 'hover' ? 1.4 : 1
+
+  if (isTouch) return null
 
   return (
     <>

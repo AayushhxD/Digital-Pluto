@@ -102,7 +102,7 @@ export default function PacomeShell() {
         </section>
 
         {/* ── SCROLLABLE COMPANY PROFILE BELOW ── */}
-        <CompanyProfile onNavigate={handleNavigate as any} />
+        <CompanyProfile onNavigateAction={handleNavigate as any} />
 
         {/* showreel disc 
         <div className="fixed bottom-6 left-6 z-40 sm:bottom-8 sm:left-8">

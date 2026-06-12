@@ -433,36 +433,45 @@ function ContactSection({ onNavigate }: { onNavigate?: (section: 'contact') => v
 
       <div className="grid sm:grid-cols-3 gap-6 mb-12">
         {[
-          { icon: '📞', label: 'phone', value: '+91 90490 15912', sub: '+91 90498 62240', href: 'tel:+919049015912', accent: '#00D9FF' },
-          { icon: '✉️', label: 'email', value: 'teamdigitalpluto@gmail.com', sub: null, href: 'mailto:teamdigitalpluto@gmail.com', accent: '#7B61FF' },
-          { icon: '📸', label: 'instagram', value: '@digital.pluto', sub: null, href: 'https://instagram.com/digital.pluto', accent: '#fb7185' },
+          { icon: '📞', label: 'phone', value: '+91 90490 15912', sub: '+919049015912', href: 'tel:+919049015912', subHref: 'tel:+919049015912', accent: '#00D9FF' },
+          { icon: '✉️', label: 'email', value: 'teamdigitalpluto@gmail.com', sub: null, href: 'mailto:teamdigitalpluto@gmail.com', subHref: null, accent: '#7B61FF' },
+          { icon: '📸', label: 'instagram', value: '@digital.pluto', sub: null, href: 'https://instagram.com/digital.pluto', subHref: null, accent: '#fb7185' },
         ].map((contact, i) => (
           <Reveal key={contact.label} delay={i * 0.1}>
-            <motion.a
-              href={contact.href}
-              target="_blank"
-              rel="noopener noreferrer"
+            <motion.div
               className="block rounded-2xl p-7 relative overflow-hidden group"
               style={{
                 background: `linear-gradient(145deg, ${contact.accent}12 0%, rgba(0,0,0,0) 60%)`,
                 border: `1px solid ${contact.accent}25`,
-                textDecoration: 'none',
               }}
               whileHover={{ scale: 1.02, y: -3 }}
               transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-              data-cursor-hover
             >
-              <div className="text-2xl mb-4">{contact.icon}</div>
-              <div className="text-[10px] uppercase tracking-[0.22em] text-white/30 mb-1">{contact.label}</div>
-              <div className="font-medium text-white text-sm break-all">{contact.value}</div>
-              {contact.sub && <div className="text-xs text-white/40 mt-1">{contact.sub}</div>}
+              <div className="text-2xl mb-4 pointer-events-none">{contact.icon}</div>
+              <div className="text-[10px] uppercase tracking-[0.22em] text-white/30 mb-1 pointer-events-none">{contact.label}</div>
+              <div className="font-medium text-white text-sm break-all">
+                <a href={contact.href} target="_blank" rel="noopener noreferrer" className="before:absolute before:inset-0 outline-none" data-cursor-hover>
+                  {contact.value}
+                </a>
+              </div>
+              {contact.sub && (
+                <div className="text-xs text-white/40 mt-1">
+                  {contact.subHref ? (
+                    <a href={contact.subHref} target="_blank" rel="noopener noreferrer" className="relative z-10 hover:text-white transition-colors outline-none inline-block py-1 -my-1" data-cursor-hover>
+                      {contact.sub}
+                    </a>
+                  ) : (
+                    <span className="relative z-10">{contact.sub}</span>
+                  )}
+                </div>
+              )}
               <motion.div
-                className="absolute bottom-4 right-4 text-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute bottom-4 right-4 text-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
                 style={{ color: contact.accent }}
               >
                 →
               </motion.div>
-            </motion.a>
+            </motion.div>
           </Reveal>
         ))}
       </div>
@@ -478,7 +487,7 @@ function ContactSection({ onNavigate }: { onNavigate?: (section: 'contact') => v
         >
           {/* animated bg */}
           <motion.div
-            className="absolute inset-0 rounded-3xl"
+            className="absolute inset-0 rounded-3xl pointer-events-none"
             style={{ background: 'radial-gradient(ellipse at 30% 50%, rgba(0,217,255,0.06) 0%, transparent 60%)' }}
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 4, repeat: Infinity }}
@@ -527,7 +536,7 @@ export function ScrollCue() {
 }
 
 /* ─── Main export ──────────────────────────────────────── */
-export default function CompanyProfile({ onNavigate }: { onNavigate?: (section: 'contact') => void }) {
+export default function CompanyProfile({ onNavigateAction }: { onNavigateAction?: (section: 'contact') => void }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start start', 'end end'] })
   const progressWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
@@ -569,7 +578,7 @@ export default function CompanyProfile({ onNavigate }: { onNavigate?: (section: 
         <Divider />
         <InfluencerCollab />
         <Divider />
-        <ContactSection onNavigate={onNavigate} />
+        <ContactSection onNavigate={onNavigateAction} />
       </div>
     </div>
   )
