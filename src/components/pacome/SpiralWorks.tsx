@@ -417,7 +417,7 @@ export default function SpiralWorks({ onOpen }: { onOpen?: (index: number) => vo
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 overflow-hidden touch-none select-none"
+      className="absolute inset-0 overflow-hidden touch-pan-y select-none"
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
