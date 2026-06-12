@@ -139,24 +139,22 @@ export default function EntryGate({ onEnter }: EntryGateProps) {
           </AnimatePresence>
         </h1>
 
-        {/* Enter button — fades in after typing finishes */}
+        {/* Enter button — fades in slightly after mount rather than waiting for typewriter */}
         <AnimatePresence>
-          {done && (
-            <motion.button
-              type="button"
-              onClick={onEnter}
-              className="pacome-pill mt-10 sm:mt-12"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
-              enter portfolio
-              <span className="pacome-dot" />
-            </motion.button>
-          )}
+          <motion.button
+            type="button"
+            onClick={onEnter}
+            className="pacome-pill mt-10 sm:mt-12"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          >
+            enter portfolio
+            <span className="pacome-dot" />
+          </motion.button>
         </AnimatePresence>
       </motion.div>
 

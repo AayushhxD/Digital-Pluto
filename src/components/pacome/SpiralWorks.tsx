@@ -142,16 +142,20 @@ function OrbCard({
     const step = (Math.PI * 2) / total
     const theta = index * step + angle
 
+    const isMobile = containerW < 640
     // Orbital radii — wider horizontally, taller vertically for a proper 3D look
-    const rx = containerW * 0.38
-    const ry = containerH * 0.22   // ← increased vertical radius
+    // On mobile, use a wider percentage of the screen width and smaller vertical span
+    const rx = isMobile ? containerW * 0.42 : containerW * 0.38
+    const ry = isMobile ? containerH * 0.16 : containerH * 0.22
 
     const cx = Math.sin(theta) * rx
     // Offset cards DOWN from center so the active card sits at ~55% height
     const cy = -Math.cos(theta) * ry * 0.72
 
     const depth = Math.cos(theta)           // 1 = front, -1 = back
-    const scale = 0.48 + depth * 0.52       // front: 1.0×, back: ~0.48×
+    // Scale down cards on mobile
+    const baseScale = isMobile ? 0.8 : 1
+    const scale = (0.48 + depth * 0.52) * baseScale
     const opacity = depth > -0.2 ? 1 : Math.max(0, (depth + 0.55) / 0.35)
     const zIndex = Math.round((depth + 1) * 50)
 
@@ -165,12 +169,16 @@ function OrbCard({
   const initStyle = (() => {
     const step = (Math.PI * 2) / total
     const theta = index * step
-    const rx = (containerW || 900) * 0.38
-    const ry = (containerH || 700) * 0.22
+    const w = containerW || 900
+    const h = containerH || 700
+    const isMobile = w < 640
+    const rx = isMobile ? w * 0.42 : w * 0.38
+    const ry = isMobile ? h * 0.16 : h * 0.22
     const cx = Math.sin(theta) * rx
     const cy = -Math.cos(theta) * ry * 0.72
     const depth = Math.cos(theta)
-    const scale = 0.48 + depth * 0.52
+    const baseScale = isMobile ? 0.8 : 1
+    const scale = (0.48 + depth * 0.52) * baseScale
     const opacity = depth > -0.2 ? 1 : Math.max(0, (depth + 0.55) / 0.35)
     return {
       transform: `translate(${cx - CARD_W / 2}px, ${cy - CARD_H / 2}px) scale(${scale})`,
@@ -291,7 +299,7 @@ export default function SpiralWorks({ onOpen }: { onOpen?: (index: number) => vo
   const total = PORTFOLIO.length
 
   const angleRaw = useMotionValue(0)
-  const angleSpr = useSpring(angleRaw, { stiffness: 180, damping: 30, mass: 0.8 })
+  const angleSpr = useSpring(angleRaw, { stiffness: 120, damping: 25, mass: 1 })
 
   const isDragging = useRef(false)
   const lastX = useRef(0)
@@ -320,9 +328,9 @@ export default function SpiralWorks({ onOpen }: { onOpen?: (index: number) => vo
 
       animate(angleRaw, target, {
         type: 'spring',
-        stiffness: 180,
-        damping: 30,
-        mass: 0.8,
+        stiffness: 120,
+        damping: 25,
+        mass: 1,
         onComplete: () => {
           const cx = (containerRef.current?.clientWidth ?? 900) / 2
           const cy = (containerRef.current?.clientHeight ?? 700) / 2
@@ -380,7 +388,9 @@ export default function SpiralWorks({ onOpen }: { onOpen?: (index: number) => vo
     (e: React.WheelEvent) => {
       e.stopPropagation()
       const step = (Math.PI * 2) / total
-      angleRaw.set(angleRaw.get() - e.deltaY * 0.002)
+      // Support both horizontal and vertical scrolling correctly
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
+      angleRaw.set(angleRaw.get() - delta * 0.002)
       clearTimeout((window as any).__spiralSnap)
       ;(window as any).__spiralSnap = setTimeout(() => {
         const idx = mod(Math.round(-angleRaw.get() / step), total)

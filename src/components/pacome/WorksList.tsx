@@ -1,18 +1,18 @@
 'use client'
 
-import { useRef, useState } from 'react'
-import { motion, AnimatePresence, useInView, Variants } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence, Variants } from 'framer-motion'
 import { PORTFOLIO } from '@/data/plutoContent'
 import PortfolioCard from './PortfolioCard'
 
 const container: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.055 } },
+  show: { transition: { staggerChildren: 0.025 } },
 }
 
 const item: Variants = {
-  hidden: { opacity: 0, y: 28, scale: 0.96 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, y: 16, scale: 0.97 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.22, ease: [0.22, 1, 0.36, 1] } },
 }
 
 function ProjectTile({ project, i }: { project: typeof PORTFOLIO[0]; i: number }) {
@@ -72,9 +72,6 @@ function ProjectTile({ project, i }: { project: typeof PORTFOLIO[0]; i: number }
 }
 
 export default function WorksList() {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true })
-
   return (
     <motion.div
       className="absolute inset-0 overflow-y-auto"
@@ -105,12 +102,11 @@ export default function WorksList() {
 
         {/* Masonry-ish grid */}
         <motion.div
-          ref={ref}
           className="grid gap-3"
           style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}
           variants={container}
           initial="hidden"
-          animate={inView ? 'show' : 'hidden'}
+          animate="show"
         >
           {PORTFOLIO.map((project, i) => (
             <ProjectTile key={project.id} project={project} i={i} />

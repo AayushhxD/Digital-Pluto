@@ -322,14 +322,14 @@ function Sectors() {
 
 /* ─── SECTION: Clients ─────────────────────────────────── */
 const CLIENTS = [
-  'Vruddheshwar Pure Veg',
-  'Vatturkar Jewellers',
-  'Jija Pure Veg',
-  'Orthopaedic Industries',
-  'Paranjape Opticals',
-  'Darshan Tourism',
-  'Avani Essentials',
-  'Instafloor',
+  'Vrudheshwar pure veg',
+  'Jija pure veg',
+  'The veg kitchen',
+  'The first coffee',
+  'Darshan tourism',
+  'Balaji snacks',
+  'Glensteffani',
+  'RR enterprises',
 ]
 
 function Clients() {
@@ -421,7 +421,7 @@ function InfluencerCollab() {
 }
 
 /* ─── SECTION: Contact ─────────────────────────────────── */
-function ContactSection() {
+function ContactSection({ onNavigate }: { onNavigate?: (section: 'contact') => void }) {
   return (
     <section className="max-w-5xl mx-auto px-6 sm:px-10 pb-32">
       <SectionLabel text="contact" />
@@ -489,8 +489,9 @@ function ContactSection() {
           <p className="relative text-white/40 text-sm sm:text-base mb-8 max-w-md mx-auto">
             Founded in 2019 by Avdhut Sutar &amp; Omkar Bhosale — we're always looking for our next great challenge.
           </p>
-          <motion.a
-            href="mailto:teamdigitalpluto@gmail.com"
+          <motion.button
+            type="button"
+            onClick={() => onNavigate?.('contact')}
             className="pacome-pill inline-flex"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
@@ -498,7 +499,7 @@ function ContactSection() {
           >
             start a project
             <span className="pacome-dot" />
-          </motion.a>
+          </motion.button>
         </div>
       </Reveal>
     </section>
@@ -526,7 +527,7 @@ export function ScrollCue() {
 }
 
 /* ─── Main export ──────────────────────────────────────── */
-export default function CompanyProfile() {
+export default function CompanyProfile({ onNavigate }: { onNavigate?: (section: 'contact') => void }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start start', 'end end'] })
   const progressWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
@@ -568,7 +569,7 @@ export default function CompanyProfile() {
         <Divider />
         <InfluencerCollab />
         <Divider />
-        <ContactSection />
+        <ContactSection onNavigate={onNavigate} />
       </div>
     </div>
   )

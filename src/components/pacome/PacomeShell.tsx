@@ -19,7 +19,7 @@ type ViewMode = 'spiral' | 'list'
 type Panel = 'about' | 'contact' | null
 
 export default function PacomeShell() {
-  const [showGate, setShowGate] = useState(true)
+  const [showGate, setShowGate] = useState(false)
   const [viewMode, setViewMode] = useState<ViewMode>('spiral')
   const [menuOpen, setMenuOpen] = useState(false)
   const [panel, setPanel] = useState<Panel>(null)
@@ -42,7 +42,7 @@ export default function PacomeShell() {
             key="content"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.3 }}
           >
         {/* ── fixed header ── */}
         <header className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-5 py-5 sm:px-8">
@@ -81,7 +81,7 @@ export default function PacomeShell() {
 
         {/* ── HERO SECTION — full viewport height ── */}
         <section className="relative h-screen overflow-hidden">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="sync">
             {viewMode === 'spiral' ? (
               <motion.div
                 key="spiral"
@@ -102,12 +102,13 @@ export default function PacomeShell() {
         </section>
 
         {/* ── SCROLLABLE COMPANY PROFILE BELOW ── */}
-        <CompanyProfile />
+        <CompanyProfile onNavigate={handleNavigate as any} />
 
-        {/* showreel disc */}
+        {/* showreel disc 
         <div className="fixed bottom-6 left-6 z-40 sm:bottom-8 sm:left-8">
           <ShowreelDisc />
         </div>
+        */}
       </motion.div>
     )}
   </AnimatePresence>
