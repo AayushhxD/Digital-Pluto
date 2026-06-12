@@ -1,16 +1,16 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { motion, AnimatePresence, useInView } from 'framer-motion'
+import { motion, AnimatePresence, useInView, Variants } from 'framer-motion'
 import { PORTFOLIO } from '@/data/plutoContent'
 import PortfolioCard from './PortfolioCard'
 
-const container = {
+const container: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.055 } },
 }
 
-const item = {
+const item: Variants = {
   hidden: { opacity: 0, y: 28, scale: 0.96 },
   show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
 }
