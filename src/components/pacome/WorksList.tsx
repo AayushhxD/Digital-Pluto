@@ -22,7 +22,7 @@ function ProjectTile({ project, i }: { project: typeof PORTFOLIO[0]; i: number }
     <motion.article
       variants={item}
       className="relative group cursor-pointer"
-      style={{ aspectRatio: i % 5 === 0 ? '4/3' : '3/4' }}
+      style={{ aspectRatio: '3/4' }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       data-cursor-hover
@@ -103,7 +103,7 @@ export default function WorksList() {
         {/* Masonry-ish grid */}
         <motion.div
           className="grid gap-3"
-          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}
+          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))' }}
           variants={container}
           initial="hidden"
           animate="show"
