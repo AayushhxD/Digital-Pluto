@@ -83,7 +83,7 @@ export default function EntryGate({ onEnter }: EntryGateProps) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black px-6"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/30 backdrop-blur-[2px] px-6"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}

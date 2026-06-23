@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
+import Image from 'next/image'
 import {
   motion,
   useInView,
@@ -320,57 +321,120 @@ function Sectors() {
   )
 }
 
-/* ─── SECTION: Clients ─────────────────────────────────── */
-const CLIENTS = [
-  'Vrudheshwar pure veg',
-  'Jija pure veg',
-  'The veg kitchen',
-  'The first coffee',
-  'Darshan tourism',
-  'Balaji snacks',
-  'Glensteffani',
-  'RR enterprises',
+/* ─── SECTION: Clients (Logo Marquee) ──────────────────── */
+const CLIENT_LOGOS = [
+  { name: 'Vrudheshwar Pure Veg', src: '/logos/vrudheshwar.png', bg: '#0d1a00' },
+  { name: 'Jija Pure Veg', src: '/logos/jija.png', bg: '#1a0d00' },
+  { name: 'The Veg Kitchen', src: '/logos/veg-kitchen.svg', bg: '#001a00' },
+  { name: 'The First Coffee', src: '/logos/First-Coffee.png', bg: '#1a0000' },
+  { name: 'Darshan Tourism', src: '/logos/darshan-tourism.png', bg: '#00101a' },
+  { name: 'Balaji Snacks', src: '/logos/balaji-snacks.svg', bg: '#0d0d0d' },
+  { name: 'Glen Steffani', src: '/logos/glen-steffani.png', bg: '#1a1500' },
+  { name: 'RR Enterprises', src: '/logos/rr-enterprises.png', bg: '#1a1200' },
+  { name: 'Rujark', src: '/logos/rujark.png', bg: '#00071a' },
 ]
 
-function Clients() {
+function LogoCard({ client }: { client: typeof CLIENT_LOGOS[0] }) {
   return (
-    <section className="max-w-5xl mx-auto px-6 sm:px-10">
-      <SectionLabel text="clients" />
-      <Reveal>
-        <h2 className="font-display text-4xl sm:text-6xl font-bold lowercase leading-[1.05] mb-16 text-white">
-          reputed <span className="text-gradient-electric">clients</span>
-        </h2>
-      </Reveal>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {CLIENTS.map((c, i) => (
-          <Reveal key={c} delay={i * 0.06}>
-            <motion.div
-              className="rounded-xl px-5 py-6 flex items-center justify-center text-center text-sm text-white/50 font-medium relative overflow-hidden group"
-              style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.07)',
-              }}
-              whileHover={{ scale: 1.03 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-            >
-              <motion.div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
-                style={{ background: 'radial-gradient(ellipse at center, rgba(0,217,255,0.07) 0%, transparent 70%)' }}
-              />
-              <span className="relative z-10">{c}</span>
-            </motion.div>
-          </Reveal>
-        ))}
-        {/* "and many more" */}
-        <Reveal delay={CLIENTS.length * 0.06}>
-          <div
-            className="rounded-xl px-5 py-6 flex items-center justify-center text-center text-[11px] uppercase tracking-[0.2em] text-white/20 col-span-2 sm:col-span-4"
-            style={{ border: '1px dashed rgba(255,255,255,0.08)' }}
-          >
-            & many more
-          </div>
+    <motion.div
+      className="flex-shrink-0 mx-3 rounded-2xl flex flex-col items-center justify-center gap-3 relative overflow-hidden group cursor-default"
+      style={{
+        width: 180,
+        height: 130,
+        background: client.bg,
+        border: '1px solid rgba(255,255,255,0.07)',
+      }}
+      whileHover={{ scale: 1.06, borderColor: 'rgba(0,217,255,0.35)' }}
+      transition={{ type: 'spring', stiffness: 320, damping: 24 }}
+    >
+      {/* hover glow */}
+      <motion.div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse at center, rgba(0,217,255,0.10) 0%, transparent 70%)' }}
+      />
+      <div className="relative w-32 h-16 flex items-center justify-center">
+        <Image
+          src={client.src}
+          alt={client.name}
+          fill
+          className="object-contain"
+          sizes="128px"
+        />
+      </div>
+      <span className="text-[10px] uppercase tracking-[0.18em] text-white/25 group-hover:text-white/50 transition-colors text-center px-3 leading-tight">
+        {client.name}
+      </span>
+    </motion.div>
+  )
+}
+
+function Clients() {
+  // Duplicate list for seamless infinite loop
+  const row1 = [...CLIENT_LOGOS, ...CLIENT_LOGOS]
+  const row2 = [...CLIENT_LOGOS].reverse()
+  const row2Dup = [...row2, ...row2]
+
+  return (
+    <section className="overflow-hidden">
+      <div className="max-w-5xl mx-auto px-6 sm:px-10 mb-12">
+        <SectionLabel text="clients" />
+        <Reveal>
+          <h2 className="font-display text-4xl sm:text-6xl font-bold lowercase leading-[1.05] text-white">
+            trusted by <span className="text-gradient-electric">brands</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="mt-4 text-white/40 text-sm sm:text-base leading-relaxed max-w-2xl">
+            From restaurants to real estate, travel to lifestyle — brands across sectors trust Pluto to tell their story.
+          </p>
         </Reveal>
       </div>
+
+      {/* Row 1 — scrolls left */}
+      <Reveal delay={0.15}>
+        <div className="relative">
+          {/* Left fade */}
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-32 z-10" style={{ background: 'linear-gradient(to right, #000 0%, transparent 100%)' }} />
+          {/* Right fade */}
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-32 z-10" style={{ background: 'linear-gradient(to left, #000 0%, transparent 100%)' }} />
+          <motion.div
+            className="flex w-max"
+            style={{ willChange: 'transform', transform: 'translateZ(0)' }}
+            animate={{ x: ['0%', '-50%'] }}
+            transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+          >
+            {row1.map((c, i) => <LogoCard key={`r1-${i}`} client={c} />)}
+          </motion.div>
+        </div>
+      </Reveal>
+
+      {/* Row 2 — scrolls right */}
+      <Reveal delay={0.2}>
+        <div className="relative mt-4">
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-32 z-10" style={{ background: 'linear-gradient(to right, #000 0%, transparent 100%)' }} />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-32 z-10" style={{ background: 'linear-gradient(to left, #000 0%, transparent 100%)' }} />
+          <motion.div
+            className="flex w-max"
+            style={{ willChange: 'transform', transform: 'translateZ(0)' }}
+            animate={{ x: ['-50%', '0%'] }}
+            transition={{ duration: 32, repeat: Infinity, ease: 'linear' }}
+          >
+            {row2Dup.map((c, i) => <LogoCard key={`r2-${i}`} client={c} />)}
+          </motion.div>
+        </div>
+      </Reveal>
+
+      {/* "& many more" label */}
+      <Reveal delay={0.3}>
+        <div className="max-w-5xl mx-auto px-6 sm:px-10 mt-10">
+          <div
+            className="rounded-xl px-5 py-4 flex items-center justify-center text-[11px] uppercase tracking-[0.25em] text-white/20"
+            style={{ border: '1px dashed rgba(255,255,255,0.07)' }}
+          >
+            & many more growing brands
+          </div>
+        </div>
+      </Reveal>
     </section>
   )
 }
@@ -542,7 +606,7 @@ export default function CompanyProfile({ onNavigateAction }: { onNavigateAction?
   const progressWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
 
   return (
-    <div ref={containerRef} className="relative bg-black">
+    <div ref={containerRef} className="relative bg-transparent">
       {/* scroll progress bar */}
       <div className="fixed top-0 left-0 right-0 h-px z-[9985]" style={{ background: 'rgba(255,255,255,0.05)' }}>
         <motion.div

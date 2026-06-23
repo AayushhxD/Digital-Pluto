@@ -40,14 +40,14 @@ function useShootingStars() {
         y: Math.random() * 40,
         angle: 20 + Math.random() * 30,
         length: 60 + Math.random() * 80,
-        speed: 0.6 + Math.random() * 0.8,
+        speed: 0.4 + Math.random() * 0.6,
         color: STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)],
       }
       setStars((s) => [...s, star])
       setTimeout(() => setStars((s) => s.filter((x) => x.id !== id)), 1200)
     }
 
-    const interval = setInterval(spawn, 2200 + Math.random() * 1800)
+    const interval = setInterval(spawn, 800 + Math.random() * 1000)
     return () => clearInterval(interval)
   }, [])
 

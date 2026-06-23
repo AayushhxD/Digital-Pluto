@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="white"/>
+  <!-- Leaf icon -->
+  <g transform="translate(340, 60)">
+    <ellipse cx="0" cy="-8" rx="10" ry="16" fill="#1B7A1B" transform="rotate(-30)"/>
+    <ellipse cx="8" cy="-4" rx="10" ry="16" fill="#1B7A1B" transform="rotate(10)"/>
+    <line x1="0" y1="10" x2="0" y2="30" stroke="#1B7A1B" stroke-width="2.5"/>
+  </g>
+  <!-- "The" text -->
+  <text x="200" y="80" font-family="Georgia, serif" font-size="32" font-style="italic" fill="#1B7A1B" text-anchor="middle">The</text>
+  <!-- "Veg" text -->
+  <text x="200" y="155" font-family="Georgia, 'Times New Roman', serif" font-size="78" font-weight="bold" fill="#1B7A1B" text-anchor="middle">Veg</text>
+  <!-- "Kitchen" text -->
+  <text x="200" y="225" font-family="Georgia, 'Times New Roman', serif" font-size="68" font-weight="bold" fill="#1B7A1B" text-anchor="middle">Kitchen</text>
+  <!-- Subtitle lines -->
+  <text x="200" y="255" font-family="Arial, sans-serif" font-size="13" letter-spacing="3" fill="#1B7A1B" text-anchor="middle">A MULTICUISINE GARDEN RESTAURANT</text>
+  <text x="200" y="274" font-family="Arial, sans-serif" font-size="13" letter-spacing="3" fill="#1B7A1B" text-anchor="middle">BY VRUDHESHWAR</text>
+</svg>

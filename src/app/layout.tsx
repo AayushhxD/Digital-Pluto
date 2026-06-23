@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
 import { Syne, Inter } from 'next/font/google'
-import dynamic from 'next/dynamic'
+import { CustomCursor, StarfieldBackground } from '@/components/ui/NoSsrWrappers'
 import './globals.css'
-
-const CustomCursor = dynamic(() => import('@/components/ui/CustomCursor'), { ssr: false })
 
 const syne = Syne({
   subsets: ['latin'],
@@ -38,7 +36,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${syne.variable} ${inter.variable}`}>
-      <body className="bg-black text-white overflow-x-hidden" style={{ cursor: 'none' }}>
+      <body className="bg-transparent text-white overflow-x-hidden" style={{ cursor: 'none' }}>
+        <StarfieldBackground />
         <CustomCursor />
         {children}
       </body>
